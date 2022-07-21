@@ -1,5 +1,5 @@
 provider "aws" {
-  version = "~> 2.7"
+  version = "~> 3.0.1"
   region  = var.aws_region
 }
 
@@ -254,6 +254,15 @@ resource "aws_lb_target_group" "http" {
     interval            = 10
     path                = "/index.html"
     port                = 80
+  }
+
+data "terraform_remote_state" "network" {
+  backend = "remote"
+
+  config = {
+    organization = var.tfc_org_name
+    workspaces = {
+          name = var.tfc_network_workspace_name
   }
 
   tags = {
